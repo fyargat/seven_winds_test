@@ -1,0 +1,21 @@
+// Colors
+
+$white: #fff;
+$grey: #a1a1aa;
+$dark: #202124;
+
+// Colors map
+$colors: (
+  white: $white,
+  grey: $grey,
+  dark: $dark,
+);
+
+// Breakpoints
+
+$breakpoints: (
+  mobile: 31.25rem,
+  tablet: 48rem,
+  laptop: 60rem,
+  desktop: 80rem,
+);

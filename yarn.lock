@@ -4080,7 +4080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^20.10.5":
   version: 20.10.5
   resolution: "@types/node@npm:20.10.5"
   dependencies:
@@ -10586,6 +10586,7 @@ __metadata:
     "@storybook/react-vite": "npm:^7.6.6"
     "@storybook/test": "npm:^7.6.6"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.2.0"
+    "@types/node": "npm:^20.10.5"
     "@types/react": "npm:^18.2.43"
     "@types/react-dom": "npm:^18.2.17"
     "@typescript-eslint/eslint-plugin": "npm:^6.14.0"

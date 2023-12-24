@@ -1,0 +1,36 @@
+@use 'sass:map';
+
+@mixin truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin breakpoint($point) {
+  @if map.has-key($map: $breakpoints, $key: $point) {
+    $value: map.get(
+      $map: $breakpoints,
+      $key: $point,
+    );
+
+    @media screen and (min-width: $value) {
+      @content;
+    }
+  }
+}
