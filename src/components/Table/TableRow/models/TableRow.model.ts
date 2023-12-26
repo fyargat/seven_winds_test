@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 
@@ -37,6 +38,7 @@ export function useTableRow({ rowData }: IProps) {
       const payload = getNewRowPayload(tableData, rowData, formData);
 
       await createRow(payload);
+      toast.success('Ряд был успешно создан');
       return;
     }
 
@@ -45,12 +47,14 @@ export function useTableRow({ rowData }: IProps) {
       ...formData,
     });
     setIsEdit(false);
+    toast.success('Ряд был успешно изменен');
   };
 
   const handleDelete = async () => {
     if (isEdit) return;
 
     await deleteRow(rowData.path, rowData.id);
+    toast.error('Ряд был успешно удален');
   };
 
   const handleClickOutside = () => {

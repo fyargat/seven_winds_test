@@ -13,7 +13,7 @@ interface IProps {
 }
 
 export default function TableRowEdit(props: IProps) {
-  const { register, autoFocus, onSubmit } = useTableRowEdit(props);
+  const { register, errors, autoFocus, onSubmit } = useTableRowEdit(props);
 
   return (
     <>
@@ -24,6 +24,7 @@ export default function TableRowEdit(props: IProps) {
             autoFocus,
             ...register('rowName'),
           }}
+          error={errors.rowName}
         />
       </UITableCell>
       <UITableCell className={cn(styles.cell, styles.cellEdit)}>
@@ -32,6 +33,7 @@ export default function TableRowEdit(props: IProps) {
           inputProps={{
             ...register('salary', { valueAsNumber: true }),
           }}
+          error={errors.salary}
         />
       </UITableCell>
       <UITableCell className={cn(styles.cell, styles.cellEdit)}>
@@ -40,6 +42,7 @@ export default function TableRowEdit(props: IProps) {
           inputProps={{
             ...register('equipmentCosts', { valueAsNumber: true }),
           }}
+          error={errors.equipmentCosts}
         />
       </UITableCell>
       <UITableCell className={cn(styles.cell, styles.cellEdit)}>
@@ -48,6 +51,7 @@ export default function TableRowEdit(props: IProps) {
           inputProps={{
             ...register('overheads', { valueAsNumber: true }),
           }}
+          error={errors.overheads}
         />
       </UITableCell>
       <UITableCell className={cn(styles.cell, styles.cellEdit)}>
@@ -56,6 +60,7 @@ export default function TableRowEdit(props: IProps) {
           inputProps={{
             ...register('estimatedProfit', { valueAsNumber: true }),
           }}
+          error={errors.estimatedProfit}
         />
       </UITableCell>
     </>
