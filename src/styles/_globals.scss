@@ -12,14 +12,9 @@
   font-size: 16px;
 }
 
-::selection {
-  color: var(--color-white);
-  background-color: var(--color-dark-grey);
-}
-
 html,
 body {
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {

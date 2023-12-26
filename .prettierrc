@@ -12,9 +12,9 @@
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^@/components/(.*)$",
-    "^@/styles/(.*)$",
-    "^@/(.*)$",
+    "^$/components/(.*)$",
+    "^$/styles/(.*)$",
+    "^$/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
