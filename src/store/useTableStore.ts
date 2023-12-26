@@ -12,7 +12,7 @@ import { immer } from 'zustand/middleware/immer';
 
 interface BearState {
   data: RowData[];
-  fetchTableData: () => void;
+  fetchTableData: () => Promise<void>;
   createRow: (path: number[], payload: CreateRowPayload) => void;
   createTempRow: (path: number[], data: TempRowData) => void;
   updateRow: (path: number[], rowId: RowId, payload: UpdateRowPayload) => void;
