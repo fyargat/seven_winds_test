@@ -1,120 +1,41 @@
-import { useTableStore } from '$/store/useTableStore';
-import { IFlatRow, RowUpdatePayloadType } from '$/types/table';
-import { findTargetNode } from '$/utils/data';
+import { IFlatRow } from '$/types/table.types';
 import UITableRow from '@mui/material/TableRow';
-import { useRef, useState } from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
 
 import { TableLevelCell } from '../TableLevelCell';
-import styles from './TableRow.module.scss';
-import TableRowEdit from './TableRowEdit';
-import TableRowView from './TableRowView';
+import { useTableRow } from './models/TableRow.model';
+import styles from './ui/TableRow.module.scss';
+import TableRowEdit from './ui/TableRowEdit';
+import TableRowView from './ui/TableRowView';
 
 interface IProps {
   data: IFlatRow;
 }
 
-export default function TableRow({ data }: IProps) {
-  const [isEdit, setIsEdit] = useState(data.isTemp ?? false);
-  const ref = useRef(null);
+export default function TableRow(props: IProps) {
   const {
-    data: tableData,
-    createRow,
-    updateRow,
-    deleteRow,
-    tempRowPath,
-    setTempRowPath,
-  } = useTableStore();
-
-  const handleClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
-    if (e.detail !== 2) return;
-
-    setIsEdit(true);
-  };
-
-  const handleTempRowAdd = async () => {
-    if (isEdit) return;
-
-    setTempRowPath(data.path);
-  };
-
-  const handleUpdate = async (updatedData: RowUpdatePayloadType) => {
-    if (data.isTemp) {
-      const parentId =
-        data.level === 0
-          ? null
-          : findTargetNode(tableData, data.path.slice(0, -1)).id;
-
-      const newRow = {
-        equipmentCosts: 0,
-        estimatedProfit: 0,
-        machineOperatorSalary: 0,
-        mainCosts: 0,
-        materials: 0,
-        mimExploitation: 0,
-        overheads: 0,
-        rowName: ``,
-        salary: 0,
-        supportCosts: 0,
-        parentId,
-        ...updatedData,
-      };
-
-      await createRow(tempRowPath!, newRow);
-      setTempRowPath(null);
-      return;
-    }
-
-    const updatedRow = {
-      equipmentCosts: 0,
-      estimatedProfit: 0,
-      machineOperatorSalary: 0,
-      mainCosts: 0,
-      materials: 0,
-      mimExploitation: 0,
-      overheads: 0,
-      salary: 0,
-      supportCosts: 0,
-      ...updatedData,
-    };
-
-    await updateRow(data.path, data.id, updatedRow);
-    setIsEdit(false);
-  };
-
-  const handleDelete = async () => {
-    if (isEdit) return;
-
-    await deleteRow(data.path, data.id);
-  };
-
-  const handleClickOutside = () => {
-    if (data.isTemp) {
-      setTempRowPath(null);
-      return;
-    }
-
-    if (!isEdit) return;
-
-    setIsEdit(false);
-  };
-
-  useOnClickOutside(ref, handleClickOutside);
+    data,
+    ref,
+    isEdit,
+    onClick,
+    onTempRowCreate,
+    onCreateOrUpdate,
+    onDelete,
+  } = useTableRow(props);
 
   return (
-    <UITableRow ref={ref} onClick={handleClick} className={styles.container}>
+    <UITableRow ref={ref} onClick={onClick} className={styles.container}>
       <TableLevelCell
         level={data.level}
         hasParent={Boolean(data.parentId)}
         hasSibling={Boolean(data.hasSibling)}
         hasChild={Boolean(data.hasChild)}
-        onAdd={handleTempRowAdd}
-        onDelete={handleDelete}
+        onAdd={onTempRowCreate}
+        onDelete={onDelete}
         isDisabled={isEdit}
       />
 
       {isEdit ? (
-        <TableRowEdit data={data} onUpdate={handleUpdate} />
+        <TableRowEdit data={data} onCreateOrUpdate={onCreateOrUpdate} />
       ) : (
         <TableRowView data={data} />
       )}

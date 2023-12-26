@@ -1,12 +1,6 @@
 import { Table } from '../Table';
+import { TABS_DATA } from './Viewer.constants';
 import styles from './Viewer.module.scss';
-
-const TABS_DATA = [
-  {
-    id: 1,
-    text: 'Строительно-монтажные работы',
-  },
-];
 
 export default function Viewer() {
   return (

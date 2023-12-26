@@ -1,21 +1,11 @@
 import cn from 'classnames';
-import { useState } from 'react';
 
+import { NAV_LIST } from './Header.constants';
+import { useHeader } from './Header.model';
 import styles from './Header.module.scss';
 
-const NAV_LIST = [
-  {
-    id: 1,
-    text: 'Просмотр',
-  },
-  {
-    id: 2,
-    text: 'Управление',
-  },
-];
-
 export default function Header() {
-  const [activeItemId, setActiveItemId] = useState<number>(NAV_LIST[0].id);
+  const { activeItemId, setActiveItemId } = useHeader();
 
   return (
     <header className={styles.container}>

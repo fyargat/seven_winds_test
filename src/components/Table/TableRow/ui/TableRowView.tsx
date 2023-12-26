@@ -1,4 +1,4 @@
-import { IFlatRow } from '$/types';
+import { IFlatRow } from '$/types/table.types';
 import UITableCell from '@mui/material/TableCell';
 
 import styles from './TableRow.module.scss';

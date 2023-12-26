@@ -1,1 +1,1 @@
-export * as API from './table';
+export * as API from './table.api';

@@ -1,6 +1,8 @@
 export type RowIdType = number;
 export type ParentIdType = RowIdType | null;
 export type RowPathType = number[];
+export type TempRowPathType = number[] | null;
+export type FlatRowLevel = number;
 
 export interface IRow {
   equipmentCosts: number;
@@ -18,12 +20,17 @@ export interface IRow {
   child: IRow[];
 }
 
+export type UpdatedRowDataType = Pick<
+  IRow,
+  'rowName' | 'salary' | 'equipmentCosts' | 'overheads' | 'estimatedProfit'
+>;
+
 export type RowUpdatePayloadType = Omit<IRow, 'id' | 'total' | 'child'>;
 export type RowCreatePayloadType = RowUpdatePayloadType & {
   parentId: ParentIdType;
 };
 
-export type RowListResponseDataType = IRow[];
+export type TableDataType = IRow[];
 
 export interface IRowCreateOrUpdateResponseData {
   changed: [];
@@ -36,7 +43,7 @@ export interface IRowDeleteResponseData {
 }
 
 export interface IFlatRow extends IRow {
-  level: number;
+  level: FlatRowLevel;
   parentId: ParentIdType;
   hasSibling: boolean;
   hasChild: boolean;

@@ -1,16 +1,16 @@
 import {
-  IRow,
   IRowCreateOrUpdateResponseData,
   IRowDeleteResponseData,
   RowCreatePayloadType,
   RowIdType,
   RowUpdatePayloadType,
-} from '$/types/table';
+  TableDataType,
+} from '$/types/table.types';
 
 import { createInstance } from './api-instance';
 
-export const fetchRows = async (): Promise<IRow[]> => {
-  const response = await createInstance<IRow[]>({
+export const fetchTableData = async (): Promise<TableDataType> => {
+  const response = await createInstance<TableDataType>({
     url: 'list',
     method: 'get',
   });
