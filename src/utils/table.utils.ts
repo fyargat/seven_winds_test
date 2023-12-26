@@ -4,12 +4,14 @@ import {
   IFlatRow,
   IRow,
   ParentIdType,
+  RowFormDataType,
   RowPathType,
   TableDataType,
   TempRowPathType,
 } from '$/types/table.types';
 
 import { deepCopy } from './copy';
+import { generateId } from './id';
 
 export function getParentId(
   root: TableDataType,
@@ -37,9 +39,7 @@ export function findTargetNode(root: IRow[], path: RowPathType) {
   return curNode;
 }
 
-// TODO:
-// 1. Отдельный тип
-export function getTempRowData() {
+function getTempRowData() {
   return {
     machineOperatorSalary: 0,
     mainCosts: 0,
@@ -53,12 +53,12 @@ export function getTempRowData() {
     equipmentCosts: 0,
     salary: 0,
     rowName: '',
-    id: Date.now(),
+    id: generateId(),
     isTemp: true,
   };
 }
 
-export function getTopLevelTempRowData(): IFlatRow {
+function getTopLevelTempRowData(): IFlatRow {
   return {
     ...getTempRowData(),
     level: TOP_ROW_LEVEL,
@@ -115,7 +115,7 @@ export function flattenRows(
       parentId,
       hasSibling,
       hasChild,
-      path: path,
+      path,
     };
 
     result.push(flattenedRow);
@@ -143,4 +143,23 @@ export function getFlatRows(
   const topLevelTempRow = getTopLevelTempRowData();
 
   return [...flatRows, topLevelTempRow];
+}
+
+export function getNewRowPayload(
+  tableData: TableDataType,
+  rowData: IFlatRow,
+  formData: RowFormDataType,
+) {
+  const parentId = getParentId(tableData, rowData.path, rowData.level);
+  const payload = {
+    machineOperatorSalary: 0,
+    mainCosts: 0,
+    materials: 0,
+    mimExploitation: 0,
+    supportCosts: 0,
+    parentId,
+    ...formData,
+  };
+
+  return payload;
 }

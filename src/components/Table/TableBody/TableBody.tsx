@@ -13,8 +13,8 @@ export default function TableBody() {
 
   return (
     <UITableBody>
-      {flatRows.map((row) => (
-        <TableRow key={row.id} data={row} />
+      {flatRows.map((rowData) => (
+        <TableRow key={rowData.id} rowData={rowData} />
       ))}
     </UITableBody>
   );

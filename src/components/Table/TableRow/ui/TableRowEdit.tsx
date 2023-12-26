@@ -1,4 +1,4 @@
-import { IFlatRow, UpdatedRowDataType } from '$/types/table.types';
+import { IFlatRow, RowFormDataType } from '$/types/table.types';
 import UITableCell from '@mui/material/TableCell';
 import cn from 'classnames';
 
@@ -7,12 +7,12 @@ import TableCellForm from './TableCellForm';
 import styles from './TableRow.module.scss';
 
 interface IProps {
-  data: IFlatRow;
-  onCreateOrUpdate: (data: UpdatedRowDataType) => void;
+  rowData: IFlatRow;
+  onCreateOrUpdate: (formData: RowFormDataType) => void;
 }
 
 export default function TableRowEdit(props: IProps) {
-  const { register, onSubmit } = useTableRowEdit(props);
+  const { register, autoFocus, onSubmit } = useTableRowEdit(props);
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function TableRowEdit(props: IProps) {
         <TableCellForm
           onSubmit={onSubmit}
           inputProps={{
-            autoFocus: true,
+            autoFocus,
             ...register('rowName'),
           }}
         />

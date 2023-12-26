@@ -8,36 +8,40 @@ import TableRowEdit from './ui/TableRowEdit';
 import TableRowView from './ui/TableRowView';
 
 interface IProps {
-  data: IFlatRow;
+  rowData: IFlatRow;
 }
 
 export default function TableRow(props: IProps) {
   const {
-    data,
-    ref,
+    rowData,
+    rowRef,
     isEdit,
-    onClick,
+    onDoubleClick,
     onTempRowCreate,
     onCreateOrUpdate,
     onDelete,
   } = useTableRow(props);
 
   return (
-    <UITableRow ref={ref} onClick={onClick} className={styles.container}>
+    <UITableRow
+      ref={rowRef}
+      onClick={onDoubleClick}
+      className={styles.container}
+    >
       <TableLevelCell
-        level={data.level}
-        hasParent={Boolean(data.parentId)}
-        hasSibling={Boolean(data.hasSibling)}
-        hasChild={Boolean(data.hasChild)}
+        level={rowData.level}
+        hasParent={Boolean(rowData.parentId)}
+        hasSibling={Boolean(rowData.hasSibling)}
+        hasChild={Boolean(rowData.hasChild)}
         onAdd={onTempRowCreate}
         onDelete={onDelete}
         isDisabled={isEdit}
       />
 
       {isEdit ? (
-        <TableRowEdit data={data} onCreateOrUpdate={onCreateOrUpdate} />
+        <TableRowEdit rowData={rowData} onCreateOrUpdate={onCreateOrUpdate} />
       ) : (
-        <TableRowView data={data} />
+        <TableRowView rowData={rowData} />
       )}
     </UITableRow>
   );

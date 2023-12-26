@@ -1,28 +1,22 @@
 import { useOnClickOutside } from '$/hooks/useOnClickOutside';
 import { useTableStore } from '$/store/useTableStore';
-import { IFlatRow, UpdatedRowDataType } from '$/types/table.types';
-import { getParentId } from '$/utils/table.utils';
+import { IFlatRow, RowFormDataType } from '$/types/table.types';
+import { getNewRowPayload } from '$/utils/table.utils';
 import { useRef, useState } from 'react';
 
+import { DOUBLE_CLICK_COUNT } from '../constants/TableRow.constants';
+
 interface IProps {
-  data: IFlatRow;
+  rowData: IFlatRow;
 }
 
-const DOUBLE_CLICK_COUNT = 2;
+export function useTableRow({ rowData }: IProps) {
+  const [isEdit, setIsEdit] = useState(rowData.isTemp ?? false);
+  const rowRef = useRef(null);
+  const { tableData, createRow, updateRow, deleteRow, setTempRowPath } =
+    useTableStore();
 
-export function useTableRow({ data }: IProps) {
-  const [isEdit, setIsEdit] = useState(data.isTemp ?? false);
-  const ref = useRef(null);
-  const {
-    tableData: tableData,
-    createRow,
-    updateRow,
-    deleteRow,
-    tempRowPath,
-    setTempRowPath,
-  } = useTableStore();
-
-  const handleClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+  const handleDoubleClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
     if (e.detail !== DOUBLE_CLICK_COUNT) return;
 
     setIsEdit(true);
@@ -31,56 +25,32 @@ export function useTableRow({ data }: IProps) {
   const handleTempRowCreate = async () => {
     if (isEdit) return;
 
-    setTempRowPath(data.path);
+    setTempRowPath(rowData.path);
   };
 
-  const handleCreateOrUpdate = async (updatedData: UpdatedRowDataType) => {
-    if (data.isTemp) {
-      const newRow = {
-        equipmentCosts: 0,
-        estimatedProfit: 0,
-        machineOperatorSalary: 0,
-        mainCosts: 0,
-        materials: 0,
-        mimExploitation: 0,
-        overheads: 0,
-        rowName: '',
-        salary: 0,
-        supportCosts: 0,
-        parentId: getParentId(tableData, data.path, data.level),
-        ...updatedData,
-      };
+  const handleCreateOrUpdate = async (formData: RowFormDataType) => {
+    if (rowData.isTemp) {
+      const payload = getNewRowPayload(tableData, rowData, formData);
 
-      await createRow(tempRowPath!, newRow);
-      setTempRowPath(null);
+      await createRow(payload);
       return;
     }
 
-    const updatedRow = {
-      equipmentCosts: 0,
-      estimatedProfit: 0,
-      machineOperatorSalary: 0,
-      mainCosts: 0,
-      materials: 0,
-      mimExploitation: 0,
-      overheads: 0,
-      salary: 0,
-      supportCosts: 0,
-      ...updatedData,
-    };
-
-    await updateRow(data.path, data.id, updatedRow);
+    await updateRow(rowData.path, rowData.id, {
+      ...rowData,
+      ...formData,
+    });
     setIsEdit(false);
   };
 
   const handleDelete = async () => {
     if (isEdit) return;
 
-    await deleteRow(data.path, data.id);
+    await deleteRow(rowData.path, rowData.id);
   };
 
   const handleClickOutside = () => {
-    if (data.isTemp) {
+    if (rowData.isTemp) {
       setTempRowPath(null);
       return;
     }
@@ -89,13 +59,13 @@ export function useTableRow({ data }: IProps) {
     setIsEdit(false);
   };
 
-  useOnClickOutside(ref, handleClickOutside);
+  useOnClickOutside(rowRef, handleClickOutside);
 
   return {
-    data,
-    ref,
+    rowData,
+    rowRef,
     isEdit,
-    onClick: handleClick,
+    onDoubleClick: handleDoubleClick,
     onTempRowCreate: handleTempRowCreate,
     onCreateOrUpdate: handleCreateOrUpdate,
     onDelete: handleDelete,

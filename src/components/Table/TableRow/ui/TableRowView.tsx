@@ -4,17 +4,21 @@ import UITableCell from '@mui/material/TableCell';
 import styles from './TableRow.module.scss';
 
 interface IProps {
-  data: IFlatRow;
+  rowData: IFlatRow;
 }
 
-export default function TableRowView({ data }: IProps) {
+export default function TableRowView({ rowData }: IProps) {
   return (
     <>
-      <UITableCell className={styles.cell}>{data.rowName}</UITableCell>
-      <UITableCell className={styles.cell}>{data.salary}</UITableCell>
-      <UITableCell className={styles.cell}>{data.equipmentCosts}</UITableCell>
-      <UITableCell className={styles.cell}>{data.overheads}</UITableCell>
-      <UITableCell className={styles.cell}>{data.estimatedProfit}</UITableCell>
+      <UITableCell className={styles.cell}>{rowData.rowName}</UITableCell>
+      <UITableCell className={styles.cell}>{rowData.salary}</UITableCell>
+      <UITableCell className={styles.cell}>
+        {rowData.equipmentCosts}
+      </UITableCell>
+      <UITableCell className={styles.cell}>{rowData.overheads}</UITableCell>
+      <UITableCell className={styles.cell}>
+        {rowData.estimatedProfit}
+      </UITableCell>
     </>
   );
 }

@@ -20,7 +20,7 @@ export interface IRow {
   child: IRow[];
 }
 
-export type UpdatedRowDataType = Pick<
+export type RowFormDataType = Pick<
   IRow,
   'rowName' | 'salary' | 'equipmentCosts' | 'overheads' | 'estimatedProfit'
 >;

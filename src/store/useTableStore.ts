@@ -15,7 +15,7 @@ import { immer } from 'zustand/middleware/immer';
 interface TableState {
   tableData: TableDataType;
   fetchTableData: () => Promise<void>;
-  createRow: (path: RowPathType, payload: RowCreatePayloadType) => void;
+  createRow: (payload: RowCreatePayloadType) => void;
   updateRow: (
     path: RowPathType,
     rowId: RowIdType,
@@ -34,25 +34,28 @@ export const useTableStore = create<TableState>()(
       const data = await API.fetchTableData();
       set({ tableData: data });
     },
-    createRow: async (path, payload) => {
+    createRow: async (payload) => {
       const { current } = await API.createRow(payload);
 
       set((state) => {
         const draft = state.tableData;
+        const path = state.tempRowPath;
 
-        const newRow = {
+        const createdRow = {
           ...payload,
           ...current,
           child: [],
         };
 
+        state.tempRowPath = null;
+
         if (path) {
           const parentNode = findTargetNode(draft, path);
-          parentNode.child.push(newRow);
+          parentNode.child.push(createdRow);
           return;
         }
 
-        state.tableData.push(newRow);
+        state.tableData.push(createdRow);
       });
     },
     updateRow: async (path, rowId, payload) => {
