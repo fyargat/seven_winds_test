@@ -1,3 +1,5 @@
+@import '@/styles/mixins';
+
 .container {
   overflow-x: auto;
   flex: 1;
@@ -18,6 +20,8 @@
 }
 
 .tabButton {
+  @include truncate;
+
   padding: 0.6875rem 0.9375rem;
   font-size: 18px;
   border-right: 0.0625rem solid var(--color-dark-grey);

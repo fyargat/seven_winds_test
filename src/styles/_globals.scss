@@ -5,11 +5,11 @@
 }
 
 :root {
+  font-size: 16px;
+
   @each $name, $color in $colors {
     --color-#{"" + $name}: #{$color};
   }
-
-  font-size: 16px;
 }
 
 html,
