@@ -1,7 +1,7 @@
 import UITable from '@mui/material/Table';
 
-import TableBody from '../TableBody/TableBody';
-import { TableHead } from '../TableHead';
+import TableBody from './TableBody/TableBody';
+import { TableHead } from './TableHead';
 
 export default function Table() {
   return (
