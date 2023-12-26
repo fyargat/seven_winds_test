@@ -1,3 +1,5 @@
+@import '@/styles/mixins';
+
 .container {
   overflow: hidden !important;
 
@@ -63,11 +65,9 @@
 }
 
 .button {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
 
+  flex: 1;
   width: 24px;
   height: 24px;
 
@@ -78,9 +78,7 @@
 }
 
 .iconBackground {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
 
   width: 16px;
   height: 16px;
@@ -91,14 +89,14 @@
 }
 
 .buttons {
+  @include flex-align-center;
+
   position: absolute;
   top: 50%;
   left: 0.5rem;
   transform: translateY(-50%);
 
-  display: flex;
   gap: 0.5rem;
-  align-items: center;
 
   width: 54px;
   height: 28px;

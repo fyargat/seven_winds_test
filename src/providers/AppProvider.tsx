@@ -1,10 +1,15 @@
-import { AppPage } from '$/pages/App';
 import React from 'react';
+
+import { AppPage } from '@/pages/AppPage';
+
+import AppErrorBoundary from './ErrorBoundary';
 
 export default function AppProvider() {
   return (
     <React.StrictMode>
-      <AppPage />
+      <AppErrorBoundary>
+        <AppPage />
+      </AppErrorBoundary>
     </React.StrictMode>
   );
 }

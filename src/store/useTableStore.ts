@@ -1,61 +1,75 @@
-import { API } from '$/api';
-import {
-  CreateRowPayload,
-  RowData,
-  RowId,
-  TempRowData,
-  UpdateRowPayload,
-} from '$/types';
-import { findTargetNode } from '$/utils/data';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-interface BearState {
-  data: RowData[];
+import { API } from '@/api';
+
+import {
+  IRow,
+  RowCreatePayloadType,
+  RowIdType,
+  RowPathType,
+  RowUpdatePayloadType,
+  TableDataType,
+  TempRowPathType,
+} from '@/types/table.types';
+
+import { findTargetNode } from '@/utils/table.utils';
+
+interface TableState {
+  tableData: TableDataType;
+  tempRowPath: TempRowPathType;
+
+  setTempRowPath: (path: TempRowPathType) => void;
   fetchTableData: () => Promise<void>;
-  createRow: (path: number[], payload: CreateRowPayload) => void;
-  updateRow: (path: number[], rowId: RowId, payload: UpdateRowPayload) => void;
-  deleteRow: (path: number[], rowId: RowId) => void;
-  tempRowPath: number[] | null;
-  setTempRowPath: (path: number[] | null) => void;
+  createRow: (payload: RowCreatePayloadType) => void;
+  updateRow: (
+    path: RowPathType,
+    rowId: RowIdType,
+    payload: RowUpdatePayloadType,
+  ) => void;
+  deleteRow: (path: RowPathType, rowId: RowIdType) => void;
 }
 
-export const useTableStore = create<BearState>()(
+export const useTableStore = create<TableState>()(
   immer((set) => ({
+    tableData: [],
     tempRowPath: null,
+
     setTempRowPath: (path) => set({ tempRowPath: path }),
-    data: [],
     fetchTableData: async () => {
-      const data = await API.fetchRows();
-      set({ data });
+      const data = await API.fetchTableData();
+      set({ tableData: data });
     },
-    createRow: async (path, payload) => {
+    createRow: async (payload) => {
       const { current } = await API.createRow(payload);
 
       set((state) => {
-        const draft = state.data;
+        const draft = state.tableData;
+        const path = state.tempRowPath;
 
-        const newRow = {
+        const createdRow = {
           ...payload,
           ...current,
           child: [],
         };
 
+        state.tempRowPath = null;
+
         if (path) {
-          const parentNode = findTargetNode(draft, path) as TempRowData;
-          parentNode.child.push(newRow);
+          const parentNode = findTargetNode(draft, path);
+          parentNode.child.push(createdRow);
           return;
         }
 
-        state.data.push(newRow);
+        state.tableData.push(createdRow);
       });
     },
     updateRow: async (path, rowId, payload) => {
       const { current } = await API.updateRow(rowId, payload);
 
       set((state) => {
-        const draft = state.data;
-        const currentNode = findTargetNode(draft, path) satisfies RowData;
+        const draft = state.tableData;
+        const currentNode = findTargetNode(draft, path) satisfies IRow;
 
         // TODO: Refactoring
         currentNode.rowName = current.rowName;
@@ -69,7 +83,7 @@ export const useTableStore = create<BearState>()(
       await API.deleteRow(rowId);
 
       set((state) => {
-        const draft = state.data;
+        const draft = state.tableData;
         if (path.length === 1) {
           draft.splice(path[0], 1);
 

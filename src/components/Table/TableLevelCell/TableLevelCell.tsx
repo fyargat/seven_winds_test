@@ -1,10 +1,12 @@
 import UITableCell from '@mui/material/TableCell';
 import cn from 'classnames';
 
+import { FlatRowLevel } from '@/types/table.types';
+
 import styles from './TableLevelCell.module.scss';
 
 interface IProps {
-  level: number;
+  level: FlatRowLevel;
   hasParent: boolean;
   hasSibling: boolean;
   hasChild: boolean;
