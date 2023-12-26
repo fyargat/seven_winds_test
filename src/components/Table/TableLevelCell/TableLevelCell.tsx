@@ -25,6 +25,8 @@ export default function TableLevelCell({
   onDelete,
 }: IProps) {
   return (
+    // TODO:
+    // 1. Move 16 in constant
     <UITableCell
       className={styles.container}
       style={{

@@ -10,6 +10,10 @@
   border-bottom: 0.0625rem solid var(--color-dark-grey);
 }
 
+.scrollContainer {
+  min-height: calc(100vh - 88px);
+}
+
 .tabs {
   display: flex;
   height: 100%;
@@ -28,5 +32,6 @@
 }
 
 .table {
+  min-width: 1080px;
   padding-inline: 10px;
 }
