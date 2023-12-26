@@ -2,7 +2,6 @@ import { TOP_ROW_LEVEL } from '$/constants/table.constants';
 import {
   FlatRowLevel,
   IFlatRow,
-  IRow,
   ParentIdType,
   RowFormDataType,
   RowPathType,
@@ -14,26 +13,26 @@ import { deepCopy } from './copy';
 import { generateId } from './id';
 
 export function getParentId(
-  root: TableDataType,
-  path: RowPathType,
+  tableData: TableDataType,
+  rowPath: RowPathType,
   rowLevel: FlatRowLevel,
-) {
+): ParentIdType {
   if (rowLevel === TOP_ROW_LEVEL) return null;
 
-  return findTargetNode(deepCopy<TableDataType>(root), path.slice(0, -1)).id;
+  return (
+    findTargetNode(deepCopy<TableDataType>(tableData), rowPath.slice(0, -1))
+      .id ?? null
+  );
 }
 
-export function findTargetNode(root: IRow[], path: RowPathType) {
-  const [f, ...rest] = path;
+export function findTargetNode(root: TableDataType, path: RowPathType) {
+  const [firstIndex, ...restPath] = path;
+  let curNode = root[firstIndex];
 
-  let curNode = root[f];
+  for (const index of restPath) {
+    if (index < 0 || index >= curNode.child.length) continue;
 
-  for (const idx of rest) {
-    const { child } = curNode;
-    if (idx >= child.length || idx < 0) {
-      throw new Error('finding node failed: invalid path!!');
-    }
-    curNode = child[idx];
+    curNode = curNode.child[index];
   }
 
   return curNode;
@@ -69,40 +68,28 @@ function getTopLevelTempRowData(): IFlatRow {
   };
 }
 
-// TODO:
-// 1. Rename
-function isNeedAddTempRow(
+function hasMatchingPath(
   tempRowPath: TempRowPathType,
   parentPath: RowPathType,
 ) {
-  if (!tempRowPath) return false;
-  if (tempRowPath.length !== parentPath.length) return false;
-
-  for (let i = 0; i < parentPath.length; i++) {
-    if (parentPath[i] !== tempRowPath[i]) {
-      return false;
-    }
-  }
-
-  return true;
+  return (
+    tempRowPath &&
+    tempRowPath.length === parentPath.length &&
+    tempRowPath.every((value, i) => value === parentPath[i])
+  );
 }
 
 export function flattenRows(
-  nodes: IRow[],
+  nodes: TableDataType,
   tempRowPath: TempRowPathType,
   level: FlatRowLevel = TOP_ROW_LEVEL,
   parentId: ParentIdType = null,
   parentPath: RowPathType = [],
 ): IFlatRow[] {
-  const result: IFlatRow[] = [];
-
-  for (let index = 0; index < nodes.length; index++) {
-    const row = nodes[index];
+  return nodes.flatMap((row, index) => {
     const path = [...parentPath, index];
 
-    const isNeed = isNeedAddTempRow(tempRowPath, path);
-
-    if (isNeed) {
+    if (hasMatchingPath(tempRowPath, path)) {
       row.child.push(getTempRowData());
     }
 
@@ -118,21 +105,13 @@ export function flattenRows(
       path,
     };
 
-    result.push(flattenedRow);
-
-    if (hasChild) {
-      const childRows = flattenRows(
-        row.child,
-        tempRowPath,
-        level + 1,
-        row.id,
-        path,
-      );
-      result.push(...childRows);
-    }
-  }
-
-  return result;
+    return [
+      flattenedRow,
+      ...(hasChild
+        ? flattenRows(row.child, tempRowPath, level + 1, row.id, path)
+        : []),
+    ];
+  });
 }
 
 export function getFlatRows(
