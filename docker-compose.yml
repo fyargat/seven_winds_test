@@ -2,16 +2,16 @@ version: '3.8'
 
 services:
   app:
-    image: vite-app:latest
+    image: ghcr.io/fyargat/seven_winds_app:latest
     environment:
       NODE_ENV: production
     ports:
       - 8080:80
-    # deploy:
-    #   placement:
-    #     constraints:
-    #       - 'node.role==worker'
-# networks:
-#   default:
-#     name: portfolio_network
-#     external: true
+    deploy:
+      placement:
+        constraints:
+          - 'node.role==worker'
+networks:
+  default:
+    name: portfolio_network
+    external: true
