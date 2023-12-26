@@ -17,6 +17,9 @@ import { findTargetNode } from '@/utils/table.utils';
 
 interface TableState {
   tableData: TableDataType;
+  tempRowPath: TempRowPathType;
+
+  setTempRowPath: (path: TempRowPathType) => void;
   fetchTableData: () => Promise<void>;
   createRow: (payload: RowCreatePayloadType) => void;
   updateRow: (
@@ -25,14 +28,14 @@ interface TableState {
     payload: RowUpdatePayloadType,
   ) => void;
   deleteRow: (path: RowPathType, rowId: RowIdType) => void;
-
-  tempRowPath: TempRowPathType;
-  setTempRowPath: (path: TempRowPathType) => void;
 }
 
 export const useTableStore = create<TableState>()(
   immer((set) => ({
     tableData: [],
+    tempRowPath: null,
+
+    setTempRowPath: (path) => set({ tempRowPath: path }),
     fetchTableData: async () => {
       const data = await API.fetchTableData();
       set({ tableData: data });
@@ -91,8 +94,5 @@ export const useTableStore = create<TableState>()(
         parentNode.child = parentNode.child.filter((v) => v.id !== rowId);
       });
     },
-
-    tempRowPath: null,
-    setTempRowPath: (path) => set({ tempRowPath: path }),
   })),
 );
