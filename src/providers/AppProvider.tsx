@@ -1,10 +1,10 @@
-import { HomePage } from '$/pages/Home';
+import { AppPage } from '$/pages/App';
 import React from 'react';
 
 export default function AppProvider() {
   return (
     <React.StrictMode>
-      <HomePage />
+      <AppPage />
     </React.StrictMode>
   );
 }
