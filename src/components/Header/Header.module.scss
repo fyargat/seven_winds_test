@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  gap: 1.875rem;
+  align-items: center;
+
+  height: 2.75rem;
+  padding-inline: 1.25rem;
+
+  border-bottom: 1px solid var(--color-dark-grey);
+}
+
+.buttons {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.nav {
+  height: 100%;
+
+  &List {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+    height: 100%;
+  }
+
+  &Item {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
+    color: var(--color-grey);
+
+    &Active {
+      pointer-events: none;
+      color: var(--color-white);
+
+      &::before {
+        content: '';
+
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+        height: 2px;
+
+        background-color: var(--color-white);
+      }
+    }
+  }
+
+  &Link {
+    cursor: pointer;
+    color: inherit;
+    transition: filter 0.3s ease;
+
+    &:hover {
+      filter: opacity(70%);
+    }
+  }
+}
