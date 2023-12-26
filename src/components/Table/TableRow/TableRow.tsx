@@ -1,5 +1,5 @@
 import { useTableStore } from '$/store/useTableStore';
-import { FlattenedRowData, UpdateRowPayload } from '$/types';
+import { IFlatRow, RowUpdatePayloadType } from '$/types/table';
 import { findTargetNode } from '$/utils/data';
 import UITableRow from '@mui/material/TableRow';
 import { useRef, useState } from 'react';
@@ -11,7 +11,7 @@ import TableRowEdit from './TableRowEdit';
 import TableRowView from './TableRowView';
 
 interface IProps {
-  data: FlattenedRowData;
+  data: IFlatRow;
 }
 
 export default function TableRow({ data }: IProps) {
@@ -38,7 +38,7 @@ export default function TableRow({ data }: IProps) {
     setTempRowPath(data.path);
   };
 
-  const handleUpdate = async (updatedData: UpdateRowPayload) => {
+  const handleUpdate = async (updatedData: RowUpdatePayloadType) => {
     if (data.isTemp) {
       const parentId =
         data.level === 0

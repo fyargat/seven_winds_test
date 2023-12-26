@@ -1,21 +1,24 @@
 import { API } from '$/api';
 import {
-  CreateRowPayload,
-  RowData,
-  RowId,
-  TempRowData,
-  UpdateRowPayload,
-} from '$/types';
+  IRow,
+  RowCreatePayloadType,
+  RowIdType,
+  RowUpdatePayloadType,
+} from '$/types/table';
 import { findTargetNode } from '$/utils/data';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 interface BearState {
-  data: RowData[];
+  data: IRow[];
   fetchTableData: () => Promise<void>;
-  createRow: (path: number[], payload: CreateRowPayload) => void;
-  updateRow: (path: number[], rowId: RowId, payload: UpdateRowPayload) => void;
-  deleteRow: (path: number[], rowId: RowId) => void;
+  createRow: (path: number[], payload: RowCreatePayloadType) => void;
+  updateRow: (
+    path: number[],
+    rowId: RowIdType,
+    payload: RowUpdatePayloadType,
+  ) => void;
+  deleteRow: (path: number[], rowId: RowIdType) => void;
   tempRowPath: number[] | null;
   setTempRowPath: (path: number[] | null) => void;
 }
@@ -42,7 +45,7 @@ export const useTableStore = create<BearState>()(
         };
 
         if (path) {
-          const parentNode = findTargetNode(draft, path) as TempRowData;
+          const parentNode = findTargetNode(draft, path);
           parentNode.child.push(newRow);
           return;
         }
@@ -55,7 +58,7 @@ export const useTableStore = create<BearState>()(
 
       set((state) => {
         const draft = state.data;
-        const currentNode = findTargetNode(draft, path) satisfies RowData;
+        const currentNode = findTargetNode(draft, path) satisfies IRow;
 
         // TODO: Refactoring
         currentNode.rowName = current.rowName;

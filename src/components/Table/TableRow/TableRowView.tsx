@@ -1,10 +1,10 @@
-import { FlattenedRowData } from '$/types';
+import { IFlatRow } from '$/types';
 import UITableCell from '@mui/material/TableCell';
 
 import styles from './TableRow.module.scss';
 
 interface IProps {
-  data: FlattenedRowData;
+  data: IFlatRow;
 }
 
 export default function TableRowView({ data }: IProps) {

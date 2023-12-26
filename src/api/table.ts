@@ -1,16 +1,16 @@
 import {
-  CreateOrUpdateRowResponseData,
-  CreateRowPayload,
-  DeleteRowResponseData,
-  RowData,
-  RowId,
-  UpdateRowPayload,
-} from '$/types';
+  IRow,
+  IRowCreateOrUpdateResponseData,
+  IRowDeleteResponseData,
+  RowCreatePayloadType,
+  RowIdType,
+  RowUpdatePayloadType,
+} from '$/types/table';
 
 import { createInstance } from './api-instance';
 
-export const fetchRows = async (): Promise<RowData[]> => {
-  const response = await createInstance<RowData[]>({
+export const fetchRows = async (): Promise<IRow[]> => {
+  const response = await createInstance<IRow[]>({
     url: 'list',
     method: 'get',
   });
@@ -19,9 +19,9 @@ export const fetchRows = async (): Promise<RowData[]> => {
 };
 
 export const createRow = async (
-  payload: CreateRowPayload,
-): Promise<CreateOrUpdateRowResponseData> => {
-  const response = await createInstance<CreateOrUpdateRowResponseData>({
+  payload: RowCreatePayloadType,
+): Promise<IRowCreateOrUpdateResponseData> => {
+  const response = await createInstance<IRowCreateOrUpdateResponseData>({
     url: 'create',
     method: 'post',
     data: payload,
@@ -31,10 +31,10 @@ export const createRow = async (
 };
 
 export const updateRow = async (
-  rowId: RowId,
-  payload: UpdateRowPayload,
-): Promise<CreateOrUpdateRowResponseData> => {
-  const response = await createInstance<CreateOrUpdateRowResponseData>({
+  rowId: RowIdType,
+  payload: RowUpdatePayloadType,
+): Promise<IRowCreateOrUpdateResponseData> => {
+  const response = await createInstance<IRowCreateOrUpdateResponseData>({
     url: `${rowId}/update`,
     method: 'post',
     data: payload,
@@ -44,9 +44,9 @@ export const updateRow = async (
 };
 
 export const deleteRow = async (
-  rowId: RowId,
-): Promise<DeleteRowResponseData> => {
-  const response = await createInstance<DeleteRowResponseData>({
+  rowId: RowIdType,
+): Promise<IRowDeleteResponseData> => {
+  const response = await createInstance<IRowDeleteResponseData>({
     url: `${rowId}/delete`,
     method: 'delete',
   });

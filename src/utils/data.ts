@@ -1,6 +1,6 @@
-import { FlattenedRowData, RowData } from '$/types';
+import { IFlatRow, IRow } from '$/types/table';
 
-export const findTargetNode = (root: RowData[], path: number[]) => {
+export const findTargetNode = (root: IRow[], path: number[]) => {
   const [f, ...rest] = path;
 
   let curNode = root[f];
@@ -52,13 +52,13 @@ const isNeedAddTempRow = (
 };
 
 export function flattenRows(
-  nodes: RowData[],
+  nodes: IRow[],
   tempRowPath: number[] | null,
   level: number = 0,
   parentId: number | null = null,
   parentPath: number[] = [],
-): FlattenedRowData[] {
-  const result: FlattenedRowData[] = [];
+): IFlatRow[] {
+  const result: IFlatRow[] = [];
 
   for (let i = 0; i < nodes.length; i++) {
     const row = nodes[i];
@@ -73,7 +73,7 @@ export function flattenRows(
     const hasChild = row.child.length > 0;
     const hasSibling = nodes.length === 1 ? false : i < nodes.length - 1;
 
-    const flattenedRow: FlattenedRowData = {
+    const flattenedRow: IFlatRow = {
       ...row,
       level,
       parentId,

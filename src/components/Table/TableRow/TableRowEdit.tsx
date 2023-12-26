@@ -1,4 +1,4 @@
-import { FlattenedRowData, UpdateRowPayload } from '$/types';
+import { IFlatRow, RowUpdatePayloadType } from '$/types/table';
 import UITableCell from '@mui/material/TableCell';
 import cn from 'classnames';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -6,8 +6,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './TableRow.module.scss';
 
 interface IProps {
-  data: FlattenedRowData;
-  onUpdate: (data: UpdateRowPayload) => void;
+  data: IFlatRow;
+  onUpdate: (data: RowUpdatePayloadType) => void;
 }
 
 type Inputs = {

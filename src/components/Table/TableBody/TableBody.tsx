@@ -1,5 +1,5 @@
 import { useTableStore } from '$/store/useTableStore';
-import { FlattenedRowData, RowData } from '$/types';
+import { IFlatRow, IRow } from '$/types/table';
 import { deepCopy } from '$/utils/copy';
 import { flattenRows } from '$/utils/data';
 import UITableBody from '@mui/material/TableBody';
@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { TableRow } from '../TableRow';
 import { TableSpinner } from '../TableSpinner';
 
-export const tempRow: FlattenedRowData = {
+export const tempRow: IFlatRow = {
   equipmentCosts: 0,
   estimatedProfit: 0,
   machineOperatorSalary: 0,
@@ -34,10 +34,7 @@ export default function TableBody() {
   const [isLoading, setIsLoading] = useState(true);
   const { data, fetchTableData, tempRowPath } = useTableStore();
 
-  const rows = [
-    ...flattenRows(deepCopy<RowData[]>(data), tempRowPath),
-    tempRow,
-  ];
+  const rows = [...flattenRows(deepCopy<IRow[]>(data), tempRowPath), tempRow];
 
   useEffect(() => {
     fetchTableData().finally(() => setIsLoading(false));
