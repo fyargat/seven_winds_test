@@ -48,6 +48,7 @@ const PROJECT_LIST = [
 
 export default function Sidebar() {
   const [activeItemId, setActiveItemId] = useState<number>(PROJECT_LIST[4].id);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <div className={styles.container}>
@@ -56,8 +57,15 @@ export default function Sidebar() {
           <p className={styles.headerProjectName}>Название проекта</p>
           <p className={styles.headerAbbreviation}>Аббревиатура</p>
         </div>
-        <button>
-          <img src='/icons/arrow.svg' alt='Arrow Icon' />
+        <button
+          onClick={() => setIsOpen((prev) => !prev)}
+          className={cn(styles.arrow, {
+            [styles.arrowRotate]: isOpen,
+          })}
+        >
+          <div>
+            <img src='/icons/arrow.svg' alt='Arrow Icon' />
+          </div>
         </button>
       </header>
       <div className={styles.body}>

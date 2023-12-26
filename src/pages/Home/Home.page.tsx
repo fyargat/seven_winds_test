@@ -1,7 +1,9 @@
 import { Header } from '$/components/Header';
 import { Sidebar } from '$/components/Sidebar';
-import { Table } from '$/components/Table';
+import { Viewer } from '$/components/Viewer';
 
+// TODO:
+// 1. Rename to AppPage
 export default function HomePage() {
   return (
     <div>
@@ -13,14 +15,7 @@ export default function HomePage() {
         }}
       >
         <Sidebar />
-        <div
-          style={{
-            paddingInline: 10,
-            flex: 1,
-          }}
-        >
-          <Table />
-        </div>
+        <Viewer />
       </div>
     </div>
   );

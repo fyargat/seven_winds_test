@@ -1,0 +1,27 @@
+.container {
+  flex: 1;
+}
+
+.header {
+  height: 44px;
+  border-bottom: 0.0625rem solid var(--color-dark-grey);
+}
+
+.tabs {
+  display: flex;
+  height: 100%;
+}
+
+.tab {
+  height: 100%;
+}
+
+.tabButton {
+  padding: 0.6875rem 0.9375rem;
+  font-size: 18px;
+  border-right: 0.0625rem solid var(--color-dark-grey);
+}
+
+.table {
+  padding-inline: 10px;
+}

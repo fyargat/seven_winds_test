@@ -1,6 +1,6 @@
 .container {
-  width: 234px;
-  border-right: 1px solid var(--color-dark-grey);
+  width: 14.625rem;
+  border-right: 0.0625rem solid var(--color-dark-grey);
 }
 
 .header {
@@ -8,26 +8,36 @@
   align-items: center;
   justify-content: space-between;
 
-  padding: 0.5rem;
-  padding-left: 1.25rem;
+  height: 44px;
+  padding: 8px;
+  padding-left: 20px;
 
   color: var(--color-grey);
 
-  border-bottom: 1px solid var(--color-dark-grey);
+  border-bottom: 0.0625rem solid var(--color-dark-grey);
 
   &Abbreviation {
     font-size: 10px;
+    line-height: 12px;
+  }
+}
+
+.arrow {
+  transition: transform 0.1s ease;
+
+  &Rotate {
+    transform: rotate(180deg);
   }
 }
 
 .itemButton {
   display: flex;
-  gap: 0.875rem;
+  gap: 14px;
   align-items: center;
 
   width: 100%;
-  padding: 8px;
-  padding-left: 1.25rem;
+  padding: 0.5rem;
+  padding-left: 20px;
 
   transition: background-color 0.3s ease;
 
