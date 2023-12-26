@@ -19,7 +19,7 @@ type Inputs = {
 };
 
 export default function TableRowEdit({ data, onUpdate }: IProps) {
-  const { register, handleSubmit } = useForm<Inputs>({
+  const { register, handleSubmit, reset } = useForm<Inputs>({
     defaultValues: {
       rowName: data.rowName,
       salary: data.salary,
@@ -28,8 +28,9 @@ export default function TableRowEdit({ data, onUpdate }: IProps) {
       estimatedProfit: data.estimatedProfit,
     },
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    onUpdate(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await onUpdate(data);
+    reset();
   };
 
   return (

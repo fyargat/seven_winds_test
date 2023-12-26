@@ -20,10 +20,10 @@ export default function TableRow({ data }: IProps) {
   const {
     data: tableData,
     createRow,
-    createTempRow,
     updateRow,
     deleteRow,
-    deleteTempRow,
+    tempRowPath,
+    setTempRowPath,
   } = useTableStore();
 
   const handleClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
@@ -35,34 +35,15 @@ export default function TableRow({ data }: IProps) {
   const handleTempRowAdd = async () => {
     if (isEdit) return;
 
-    const parentId = findTargetNode(tableData, data.path).id;
-
-    const newRow = {
-      equipmentCosts: 0,
-      estimatedProfit: 0,
-      machineOperatorSalary: 0,
-      mainCosts: 0,
-      materials: 0,
-      mimExploitation: 0,
-      overheads: 0,
-      rowName: ``,
-      salary: 0,
-      supportCosts: 0,
-      parentId,
-
-      // temp
-      id: Date.now(),
-      child: [],
-      total: 0,
-      isTemp: true,
-    };
-
-    await createTempRow(data.path, newRow);
+    setTempRowPath(data.path);
   };
 
   const handleUpdate = async (updatedData: UpdateRowPayload) => {
     if (data.isTemp) {
-      const parentId = findTargetNode(tableData, data.path.slice(0, -1)).id;
+      const parentId =
+        data.level === 0
+          ? null
+          : findTargetNode(tableData, data.path.slice(0, -1)).id;
 
       const newRow = {
         equipmentCosts: 0,
@@ -79,7 +60,8 @@ export default function TableRow({ data }: IProps) {
         ...updatedData,
       };
 
-      await createRow(data.path, newRow);
+      await createRow(tempRowPath!, newRow);
+      setTempRowPath(null);
       return;
     }
 
@@ -108,7 +90,7 @@ export default function TableRow({ data }: IProps) {
 
   const handleClickOutside = () => {
     if (data.isTemp) {
-      deleteTempRow(data.path, data.id);
+      setTempRowPath(null);
       return;
     }
 
