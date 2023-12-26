@@ -1,6 +1,8 @@
-import { useTableStore } from '$/store/useTableStore';
-import { getFlatRows } from '$/utils/table.utils';
 import { useEffect, useState } from 'react';
+
+import { useTableStore } from '@/store/useTableStore';
+
+import { getFlatRows } from '@/utils/table.utils';
 
 export function useTableBody() {
   const [isLoading, setIsLoading] = useState(true);

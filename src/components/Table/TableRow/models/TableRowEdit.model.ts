@@ -1,6 +1,8 @@
-import { TOP_ROW_LEVEL } from '$/constants/table.constants';
-import { IFlatRow, RowFormDataType } from '$/types/table.types';
 import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { TOP_ROW_LEVEL } from '@/constants/table.constants';
+
+import { IFlatRow, RowFormDataType } from '@/types/table.types';
 
 interface IProps {
   rowData: IFlatRow;

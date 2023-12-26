@@ -1,5 +1,6 @@
-import { AppPage } from '$/pages/App';
 import React from 'react';
+
+import { AppPage } from '@/pages/App';
 
 export default function AppProvider() {
   return (

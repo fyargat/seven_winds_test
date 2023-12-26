@@ -1,5 +1,6 @@
-import { IFlatRow } from '$/types/table.types';
 import UITableRow from '@mui/material/TableRow';
+
+import { IFlatRow } from '@/types/table.types';
 
 import { TableLevelCell } from '../TableLevelCell';
 import { useTableRow } from './models/TableRow.model';

@@ -1,6 +1,7 @@
-import { IFlatRow, RowFormDataType } from '$/types/table.types';
 import UITableCell from '@mui/material/TableCell';
 import cn from 'classnames';
+
+import { IFlatRow, RowFormDataType } from '@/types/table.types';
 
 import { useTableRowEdit } from '../models/TableRowEdit.model';
 import TableCellForm from './TableCellForm';

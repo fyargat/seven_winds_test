@@ -1,4 +1,5 @@
-import { TOP_ROW_LEVEL } from '$/constants/table.constants';
+import { TOP_ROW_LEVEL } from '@/constants/table.constants';
+
 import {
   FlatRowLevel,
   IFlatRow,
@@ -7,7 +8,7 @@ import {
   RowPathType,
   TableDataType,
   TempRowPathType,
-} from '$/types/table.types';
+} from '@/types/table.types';
 
 import { deepCopy } from './copy';
 import { generateId } from './id';

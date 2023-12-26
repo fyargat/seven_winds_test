@@ -1,8 +1,12 @@
-import { useOnClickOutside } from '$/hooks/useOnClickOutside';
-import { useTableStore } from '$/store/useTableStore';
-import { IFlatRow, RowFormDataType } from '$/types/table.types';
-import { getNewRowPayload } from '$/utils/table.utils';
 import { useRef, useState } from 'react';
+
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+
+import { useTableStore } from '@/store/useTableStore';
+
+import { IFlatRow, RowFormDataType } from '@/types/table.types';
+
+import { getNewRowPayload } from '@/utils/table.utils';
 
 import { DOUBLE_CLICK_COUNT } from '../constants/TableRow.constants';
 

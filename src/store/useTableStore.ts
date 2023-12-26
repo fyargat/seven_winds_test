@@ -1,4 +1,8 @@
-import { API } from '$/api';
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+
+import { API } from '@/api';
+
 import {
   IRow,
   RowCreatePayloadType,
@@ -7,10 +11,9 @@ import {
   RowUpdatePayloadType,
   TableDataType,
   TempRowPathType,
-} from '$/types/table.types';
-import { findTargetNode } from '$/utils/table.utils';
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+} from '@/types/table.types';
+
+import { findTargetNode } from '@/utils/table.utils';
 
 interface TableState {
   tableData: TableDataType;

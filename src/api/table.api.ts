@@ -5,7 +5,7 @@ import {
   RowIdType,
   RowUpdatePayloadType,
   TableDataType,
-} from '$/types/table.types';
+} from '@/types/table.types';
 
 import { createInstance } from './api-instance';
 
