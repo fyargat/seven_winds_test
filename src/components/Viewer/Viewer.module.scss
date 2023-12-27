@@ -1,7 +1,6 @@
 @import '@/styles/mixins';
 
 .container {
-  overflow-x: auto;
   flex: 1;
   height: 100%;
 }
@@ -33,5 +32,13 @@
 }
 
 .table {
+  overflow: auto;
+  height: calc(100vh - 5.5rem);
   padding-inline: 10px;
+
+  & thead th {
+    position: sticky;
+    z-index: 100;
+    top: 0;
+  }
 }

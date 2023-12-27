@@ -12,21 +12,21 @@ export default function MainContent() {
 
   return (
     <main className={styles.main}>
+      <button
+        className={styles.sidebarVisibleButton}
+        onClick={() => setIsHideSidebar((prev) => !prev)}
+      >
+        <img
+          src={`/icons/${buttonIconName}-eye.svg`}
+          alt='Sidebar Control Button Icon'
+        />
+      </button>
       <div
         className={cn(styles.sidebar, {
           [styles.sidebarHide]: isHideSidebar,
         })}
       >
         <Sidebar />
-        <button
-          className={styles.sidebarVisibleButton}
-          onClick={() => setIsHideSidebar((prev) => !prev)}
-        >
-          <img
-            src={`/icons/${buttonIconName}-eye.svg`}
-            alt='Sidebar Control Button Icon'
-          />
-        </button>
       </div>
       <div
         className={cn(styles.viewer, {
