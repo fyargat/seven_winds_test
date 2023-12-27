@@ -2,7 +2,7 @@
 
 ## Live
 
-## http://seven-winds-test.fyargat.com/
+http://seven-winds-test.fyargat.com/
 
 ### Clone
 
