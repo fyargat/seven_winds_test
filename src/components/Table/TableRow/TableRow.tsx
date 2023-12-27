@@ -1,4 +1,5 @@
 import UITableRow from '@mui/material/TableRow';
+import cn from 'classnames';
 
 import { IFlatRow } from '@/types/table.types';
 
@@ -17,6 +18,7 @@ export default function TableRow(props: IProps) {
     rowData,
     rowRef,
     isEdit,
+    isLoading,
     onDoubleClick,
     onTempRowCreate,
     onCreateOrUpdate,
@@ -27,7 +29,9 @@ export default function TableRow(props: IProps) {
     <UITableRow
       ref={rowRef}
       onClick={onDoubleClick}
-      className={styles.container}
+      className={cn(styles.container, {
+        [styles.containerLoading]: isLoading,
+      })}
     >
       <TableLevelCell
         level={rowData.level}
@@ -36,7 +40,7 @@ export default function TableRow(props: IProps) {
         hasChild={Boolean(rowData.hasChild)}
         onAdd={onTempRowCreate}
         onDelete={onDelete}
-        isDisabled={isEdit}
+        isDisabled={isEdit || isLoading}
       />
 
       {isEdit ? (

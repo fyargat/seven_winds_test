@@ -16,10 +16,18 @@ interface IProps {
 }
 
 export function useTableRow({ rowData }: IProps) {
-  const [isEdit, setIsEdit] = useState(rowData.isTemp ?? false);
+  const { isTemp, parentId } = rowData;
+  const [isEdit, setIsEdit] = useState(isTemp ?? false);
+  const [isLoading, setIsLoading] = useState(false);
   const rowRef = useRef(null);
-  const { tableData, createRow, updateRow, deleteRow, setTempRowPath } =
-    useTableStore();
+  const {
+    tableData,
+    tempRowPath,
+    createRow,
+    updateRow,
+    deleteRow,
+    setTempRowPath,
+  } = useTableStore();
 
   const handleDoubleClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
     if (e.detail !== DOUBLE_CLICK_COUNT) return;
@@ -34,31 +42,48 @@ export function useTableRow({ rowData }: IProps) {
   };
 
   const handleCreateOrUpdate = async (formData: RowFormDataType) => {
-    if (rowData.isTemp) {
-      const payload = getNewRowPayload(tableData, rowData, formData);
+    try {
+      setIsLoading(true);
 
-      await createRow(payload);
-      toast.success('Ряд был успешно создан');
-      return;
+      if (isTemp) {
+        const payload = getNewRowPayload(tableData, rowData, formData);
+
+        await createRow(payload);
+        toast.success('Ряд был успешно создан');
+        return;
+      }
+
+      await updateRow(rowData.path, rowData.id, {
+        ...rowData,
+        ...formData,
+      });
+      setIsEdit(false);
+      toast.success('Ряд был успешно изменен');
+    } catch (error) {
+      toast.error('Что пошло не так');
+    } finally {
+      setIsLoading(false);
     }
-
-    await updateRow(rowData.path, rowData.id, {
-      ...rowData,
-      ...formData,
-    });
-    setIsEdit(false);
-    toast.success('Ряд был успешно изменен');
   };
 
   const handleDelete = async () => {
     if (isEdit) return;
+    try {
+      setIsLoading(true);
 
-    await deleteRow(rowData.path, rowData.id);
-    toast.error('Ряд был успешно удален');
+      await deleteRow(rowData.path, rowData.id);
+      toast.error('Ряд был успешно удален');
+    } catch (error) {
+      toast.error('Что пошло не так');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleClickOutside = () => {
-    if (rowData.isTemp) {
+    if (!parentId && isTemp) return;
+
+    if (tempRowPath && isTemp) {
       setTempRowPath(null);
       return;
     }
@@ -73,6 +98,7 @@ export function useTableRow({ rowData }: IProps) {
     rowData,
     rowRef,
     isEdit,
+    isLoading,
     onDoubleClick: handleDoubleClick,
     onTempRowCreate: handleTempRowCreate,
     onCreateOrUpdate: handleCreateOrUpdate,

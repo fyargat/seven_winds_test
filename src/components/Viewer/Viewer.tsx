@@ -1,5 +1,3 @@
-import ScrollContainer from 'react-indiana-drag-scroll';
-
 import { Table } from '../Table';
 import { TABS_DATA } from './Viewer.constants';
 import styles from './Viewer.module.scss';
@@ -18,16 +16,10 @@ export default function Viewer() {
           ))}
         </ul>
       </header>
-      <ScrollContainer
-        className={styles.scrollContainer}
-        nativeMobileScroll={true}
-        vertical={false}
-        hideScrollbars={false}
-      >
-        <div className={styles.table}>
-          <Table />
-        </div>
-      </ScrollContainer>
+
+      <div className={styles.table}>
+        <Table />
+      </div>
     </div>
   );
 }

@@ -4,6 +4,11 @@
   @include flex-align-center;
 
   gap: 1rem;
+  transition: filter 0.3s ease;
+
+  &Loading {
+    filter: opacity(30%);
+  }
 }
 
 .cell {
