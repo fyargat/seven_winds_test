@@ -8,8 +8,6 @@
   min-height: calc(100vh - $header-height);
 }
 
-// TODO:
-// 1. Вынести высоту хедера в переменную
 .sidebar {
   position: fixed;
   z-index: 10;
@@ -40,8 +38,6 @@
   border-radius: 0 20px 20px 0;
 }
 
-// TODO:
-// 1. Вынести ширину sidebar в переменную
 .viewer {
   position: absolute;
   left: $sidebar-width;

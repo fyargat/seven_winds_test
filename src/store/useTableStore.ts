@@ -71,7 +71,6 @@ export const useTableStore = create<TableState>()(
         const draft = state.tableData;
         const currentNode = findTargetNode(draft, path) satisfies IRow;
 
-        // TODO: Refactoring
         currentNode.rowName = current.rowName;
         currentNode.salary = current.salary;
         currentNode.equipmentCosts = current.equipmentCosts;

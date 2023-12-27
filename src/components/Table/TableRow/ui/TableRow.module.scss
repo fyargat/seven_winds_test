@@ -26,8 +26,6 @@
     min-height: 36px;
     padding: 10px;
 
-    // TODO:
-    // 1. Move in vars
     color: #71717a;
 
     background-color: transparent;
@@ -47,11 +45,4 @@
   @include flex-center;
 
   gap: 1rem;
-}
-
-// TODO:
-// 1. Remove
-button {
-  color: white;
-  background-color: blue;
 }
