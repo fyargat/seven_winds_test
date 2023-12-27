@@ -1,43 +1,48 @@
 @import '@/styles/mixins';
 
-.container {
+$line-size: 1px;
+
+.cell {
   overflow: hidden !important;
 
   height: 0 !important;
-  padding-right: 5rem !important;
   padding-block: 0 !important;
 
   border-bottom: none !important;
   box-shadow: inset 0 1px 0 var(--color-dark-grey);
 }
 
-.relation {
+.container {
   position: relative;
-  height: 100%;
+  height: 3.75rem;
+}
 
-  &Line {
-    background-color: var(--color-white);
+.line {
+  background-color: var(--color-white);
 
-    &Vertical {
-      width: 1px;
-    }
-
-    &Horizontal {
-      height: 1px;
-    }
-  }
-
-  &Parent {
+  &Container {
     position: absolute;
     inset: 0;
+  }
 
-    .relationLineVertical {
+  &Vertical {
+    width: $line-size;
+  }
+
+  &Horizontal {
+    height: $line-size;
+  }
+}
+
+.relation {
+  &Parent {
+    .lineVertical {
       position: absolute;
       left: 0;
       height: 50%;
     }
 
-    .relationLineHorizontal {
+    .lineHorizontal {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -46,19 +51,15 @@
   }
 
   &Sibling {
-    .relationLineVertical {
+    .lineVertical {
       height: 100%;
     }
   }
 
   &Child {
-    position: absolute;
-    inset: 0;
-
-    .relationLineVertical {
+    .lineVertical {
       position: absolute;
       bottom: 0;
-      left: 1.25rem;
       height: 50%;
     }
   }
@@ -93,7 +94,7 @@
 
   position: absolute;
   top: 50%;
-  left: 0.5rem;
+  left: 0;
   transform: translateY(-50%);
 
   gap: 0.5rem;

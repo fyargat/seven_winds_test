@@ -44,6 +44,7 @@ export interface IRowDeleteResponseData {
 
 export interface IFlatRow extends IRow {
   level: FlatRowLevel;
+  siblingLevels: FlatRowLevel[];
   parentId: ParentIdType;
   hasSibling: boolean;
   hasChild: boolean;

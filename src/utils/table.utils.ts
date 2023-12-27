@@ -62,6 +62,7 @@ function getTopLevelTempRowData(): IFlatRow {
   return {
     ...getTempRowData(),
     level: TOP_ROW_LEVEL,
+    siblingLevels: [],
     parentId: null,
     hasChild: false,
     hasSibling: false,
@@ -84,6 +85,7 @@ export function flattenRows(
   nodes: TableDataType,
   tempRowPath: TempRowPathType,
   level: FlatRowLevel = TOP_ROW_LEVEL,
+  siblingLevels: FlatRowLevel[] = [],
   parentId: ParentIdType = null,
   parentPath: RowPathType = [],
 ): IFlatRow[] {
@@ -95,11 +97,17 @@ export function flattenRows(
     }
 
     const hasChild = row.child.length > 0;
-    const hasSibling = nodes.length === 1 ? false : index < nodes.length - 1;
+    const hasSibling =
+      level !== TOP_ROW_LEVEL && nodes.length > 1 && index < nodes.length - 1;
+
+    const updatedSiblingLevels = hasSibling
+      ? [...siblingLevels, level]
+      : siblingLevels;
 
     const flattenedRow: IFlatRow = {
       ...row,
       level,
+      siblingLevels: updatedSiblingLevels,
       parentId,
       hasSibling,
       hasChild,
@@ -109,7 +117,14 @@ export function flattenRows(
     return [
       flattenedRow,
       ...(hasChild
-        ? flattenRows(row.child, tempRowPath, level + 1, row.id, path)
+        ? flattenRows(
+            row.child,
+            tempRowPath,
+            level + 1,
+            updatedSiblingLevels,
+            row.id,
+            path,
+          )
         : []),
     ];
   });
