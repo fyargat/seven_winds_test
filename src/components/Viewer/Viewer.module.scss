@@ -3,6 +3,7 @@
 .container {
   overflow-x: auto;
   flex: 1;
+  height: 100%;
 }
 
 .header {
@@ -32,6 +33,5 @@
 }
 
 .table {
-  min-width: 1080px;
   padding-inline: 10px;
 }

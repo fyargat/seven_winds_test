@@ -1,19 +1,13 @@
-import styles from './AppLayout.module.scss';
-
 interface IProps {
   header: React.ReactNode;
-  sidebar: React.ReactNode;
-  viewer: React.ReactNode;
+  main: React.ReactNode;
 }
 
-export default function AppLayout({ header, sidebar, viewer }: IProps) {
+export default function AppLayout({ header, main }: IProps) {
   return (
-    <div className={styles.container}>
+    <div>
       {header}
-      <div className={styles.body}>
-        {sidebar}
-        {viewer}
-      </div>
+      {main}
     </div>
   );
 }
