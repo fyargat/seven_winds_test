@@ -28,39 +28,60 @@
   @include flex-center;
 
   gap: 1rem;
-  font-size: 1rem;
+  font-weight: 700;
   color: var(--color-dark);
   text-align: center;
+}
 
-  a {
+.link {
+  @include flex-center;
+
+  position: relative;
+
+  gap: 1rem;
+
+  padding: 0.125rem;
+
+  color: var(--color-dark);
+
+  transition: color 0.3s ease;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background-color: var(--color-dark);
+
+    transition: height 0.3s ease-in-out;
+  }
+
+  span {
+    @include truncate;
+
     position: relative;
-    color: inherit;
-    text-decoration: underline;
-    transition: filter 0.3s ease;
+    z-index: 1;
+  }
 
-    &:hover {
-      filter: opacity(50%);
+  &:hover {
+    color: var(--color-white);
+
+    &::before {
+      height: 100%;
     }
   }
 }
 
-.circle {
-  width: 10px;
-  height: 10px;
+.logo {
+  @include flex-center;
 
-  background: #6f9;
-  border-radius: 50%;
-  box-shadow: 0 0 1px 1px #0000001a;
-
-  animation: pulse-animation 2s infinite;
-}
-
-@keyframes pulse-animation {
-  0% {
-    box-shadow: 0 0 0 0 rgb(0 0 0 / 20%);
-  }
-
-  100% {
-    box-shadow: 0 0 0 20px rgb(0 0 0 / 0%);
-  }
+  width: 30px;
+  height: 30px;
+  background-color: var(--color-dark);
+  border-radius: 4px;
 }
