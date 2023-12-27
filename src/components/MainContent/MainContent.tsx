@@ -1,36 +1,35 @@
 import cn from 'classnames';
-import { useState } from 'react';
+
+import { useSidebarStore } from '@/store/useSidebarStore';
 
 import { Sidebar } from '../Sidebar';
 import { Viewer } from '../Viewer';
 import styles from './MainContent.module.scss';
 
 export default function MainContent() {
-  const [isHideSidebar, setIsHideSidebar] = useState(false);
-
-  const buttonIconName = isHideSidebar ? 'visible' : 'hide';
+  const { isHide, toggleVisibility } = useSidebarStore();
 
   return (
     <main className={styles.main}>
       <button
         className={styles.sidebarVisibleButton}
-        onClick={() => setIsHideSidebar((prev) => !prev)}
+        onClick={toggleVisibility}
       >
         <img
-          src={`/icons/${buttonIconName}-eye.svg`}
+          src={`/icons/${isHide ? 'visible' : 'hide'}-eye.svg`}
           alt='Sidebar Control Button Icon'
         />
       </button>
       <div
         className={cn(styles.sidebar, {
-          [styles.sidebarHide]: isHideSidebar,
+          [styles.sidebarHide]: isHide,
         })}
       >
         <Sidebar />
       </div>
       <div
         className={cn(styles.viewer, {
-          [styles.viewerFull]: isHideSidebar,
+          [styles.viewerFull]: isHide,
         })}
       >
         <Viewer />
