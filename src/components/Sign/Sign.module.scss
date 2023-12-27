@@ -1,0 +1,65 @@
+@import '@/styles/mixins';
+@import '@/styles/vars';
+
+.button {
+  @include flex-center;
+
+  position: fixed;
+  z-index: 11;
+  right: 0;
+  bottom: 2rem;
+
+  width: 3rem;
+  height: 2.5rem;
+
+  border: 1px solid var(--color-dark-grey);
+  border-left: none;
+  border-radius: 20px 0 0 20px;
+
+  transition: filter 0.3s ease;
+
+  &:hover {
+    filter: opacity(50%);
+  }
+}
+
+.message {
+  @include flex-center;
+
+  gap: 1rem;
+  font-size: 1rem;
+  color: var(--color-dark);
+  text-align: center;
+
+  a {
+    position: relative;
+    color: inherit;
+    text-decoration: underline;
+    transition: filter 0.3s ease;
+
+    &:hover {
+      filter: opacity(50%);
+    }
+  }
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+
+  background: #6f9;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #0000001a;
+
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0 rgb(0 0 0 / 20%);
+  }
+
+  100% {
+    box-shadow: 0 0 0 20px rgb(0 0 0 / 0%);
+  }
+}

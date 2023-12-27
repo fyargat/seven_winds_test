@@ -36,6 +36,12 @@
   border: 1px solid var(--color-dark-grey);
   border-left: none;
   border-radius: 0 20px 20px 0;
+
+  transition: filter 0.3s ease;
+
+  &:hover {
+    filter: opacity(50%);
+  }
 }
 
 .viewer {
