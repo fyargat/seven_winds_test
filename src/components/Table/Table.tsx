@@ -8,7 +8,7 @@ export default function Table() {
     <UITable>
       <colgroup>
         <col style={{ width: 'auto' }} />
-        <col style={{ width: '40%' }} />
+        <col style={{ width: '50%' }} />
         <col style={{ width: '12%' }} />
         <col style={{ width: '12%' }} />
         <col style={{ width: '12%' }} />

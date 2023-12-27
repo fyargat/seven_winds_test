@@ -35,6 +35,7 @@ export default function TableRow(props: IProps) {
     >
       <TableLevelCell
         level={rowData.level}
+        siblingLevels={rowData.siblingLevels}
         hasParent={Boolean(rowData.parentId)}
         hasSibling={Boolean(rowData.hasSibling)}
         hasChild={Boolean(rowData.hasChild)}

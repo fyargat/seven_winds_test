@@ -3,66 +3,88 @@ import cn from 'classnames';
 
 import { FlatRowLevel } from '@/types/table.types';
 
+import { CELL_OFFSET } from './TableLevelCell.constants';
+import { useTableLevelCell } from './TableLevelCell.model';
 import styles from './TableLevelCell.module.scss';
 
 interface IProps {
   level: FlatRowLevel;
+  siblingLevels: FlatRowLevel[];
   hasParent: boolean;
   hasSibling: boolean;
   hasChild: boolean;
   isDisabled: boolean;
+
   onAdd: () => void;
   onDelete: () => void;
 }
 
-export default function TableLevelCell({
-  level,
-  hasParent,
-  hasSibling,
-  hasChild,
-  isDisabled,
-  onAdd,
-  onDelete,
-}: IProps) {
+export default function TableLevelCell(props: IProps) {
+  const {
+    width,
+    offset,
+    level,
+    siblingLevels,
+    hasParent,
+    hasSibling,
+    hasChild,
+    isDisabled,
+
+    onAdd,
+    onDelete,
+  } = useTableLevelCell(props);
+
   return (
-    // TODO:
-    // 1. Move 16 in constant
-    <UITableCell
-      className={styles.container}
-      style={{
-        paddingLeft: 16 + 20 * level,
-      }}
-    >
-      <div className={styles.relation}>
+    <UITableCell className={styles.cell}>
+      <div
+        className={styles.container}
+        style={{
+          width,
+        }}
+      >
         {hasParent && (
           <div
-            className={cn(styles.relationParent, {
+            className={cn(styles.lineContainer, styles.relationParent, {
               [styles.relationSibling]: hasSibling,
             })}
+            style={{
+              left: offset.parent,
+            }}
           >
-            <div
-              className={cn(
-                styles.relationLine,
-                styles.relationLineVertical,
-                {},
-              )}
-            ></div>
-            <div
-              className={cn(styles.relationLine, styles.relationLineHorizontal)}
-            ></div>
+            <div className={cn(styles.line, styles.lineVertical)}></div>
+            <div className={cn(styles.line, styles.lineHorizontal)}></div>
           </div>
         )}
+        {siblingLevels.map((siblingLevel, index) => (
+          <div
+            key={index}
+            className={cn(styles.lineContainer, {
+              [styles.relationSibling]: level > siblingLevel,
+            })}
+            style={{
+              left: CELL_OFFSET * siblingLevel - 4,
+            }}
+          >
+            <div className={cn(styles.line, styles.lineVertical)}></div>
+          </div>
+        ))}
         {hasChild && (
-          <div className={styles.relationChild}>
-            <div
-              className={cn(styles.relationLine, styles.relationLineVertical)}
-            ></div>
+          <div
+            className={cn(styles.lineContainer, styles.relationChild)}
+            style={{
+              left: offset.child,
+            }}
+          >
+            <div className={cn(styles.line, styles.lineVertical)}></div>
           </div>
         )}
         <div
           className={cn(styles.buttons, {
             [styles.buttonsDisabled]: isDisabled,
           })}
+          style={{
+            left: offset.buttons,
+          }}
         >
           <button
             className={cn(styles.button, styles.buttonCreate)}
