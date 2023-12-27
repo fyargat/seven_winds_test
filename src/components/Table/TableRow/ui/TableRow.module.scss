@@ -12,6 +12,8 @@
 }
 
 .cell {
+  @include truncate;
+
   padding-block: 1.25rem !important;
   color: var(--color-white) !important;
   border-bottom: none !important;
